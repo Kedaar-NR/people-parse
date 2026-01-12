@@ -360,15 +360,6 @@ body {
     font-size: 0.9rem;
 }
 
-.badge {
-    background: #eef2ff;
-    color: #4338ca;
-    padding: 0.15rem 0.55rem;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: 0.78rem;
-}
-
 .caret-btn {
     width: 32px;
     height: 32px;

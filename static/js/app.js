@@ -145,7 +145,6 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="profile-body">
                 <div class="profile-name">
                     ${escapeHtml(profile.name)}
-                    <span class="badge">${escapeHtml(profile.source || 'CoreSignal')}</span>
                 </div>
                 <div class="profile-title">${escapeHtml(titleLine)}</div>
                 <div class="profile-location">${escapeHtml(location)}</div>

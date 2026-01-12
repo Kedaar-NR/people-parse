@@ -83,11 +83,18 @@ class ExaSearchClient:
     def _normalize_results(self, results: List[Dict], fallback_name: str) -> List[Dict]:
         """Map Exa results into the profile shape expected by the UI."""
         normalized = []
+        name_tokens = self._name_tokens(fallback_name)
 
         for res in results:
             title = (res.get("title") or "").strip()
             linkedin_url = (res.get("url") or "").strip()
             summary = self._extract_snippet(res)
+
+            # Keep only LinkedIn profile URLs with name-like matches
+            if "linkedin.com/in/" not in linkedin_url.lower():
+                continue
+            if name_tokens and not self._tokens_match(title or summary, name_tokens):
+                continue
 
             normalized.append({
                 "name": self._extract_name(title, fallback_name),
@@ -122,3 +129,13 @@ class ExaSearchClient:
         primary = title.split("|")[0].strip()
         primary = (primary.split(" - ")[0] or primary).strip()
         return primary or fallback
+
+    def _name_tokens(self, name: str) -> List[str]:
+        """Tokenize a name for simple matching."""
+        tokens = [t.lower() for t in name.split() if len(t) > 2]
+        return tokens
+
+    def _tokens_match(self, text: str, tokens: List[str]) -> bool:
+        """Require all name tokens to appear in the text."""
+        text_l = (text or "").lower()
+        return all(tok in text_l for tok in tokens) if tokens else True
