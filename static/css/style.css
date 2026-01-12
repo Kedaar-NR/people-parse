@@ -41,10 +41,6 @@ body {
 }
 
 .search-shell {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 1.25rem;
-    box-shadow: var(--shadow-lg);
     margin-bottom: 2rem;
 }
 
