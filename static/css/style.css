@@ -243,6 +243,13 @@ h1 {
 .detail-row.detail-row-stack {
     flex-direction: column;
     gap: 0.35rem;
+    align-items: flex-start;
+}
+
+.detail-row.detail-row-stack .detail-label {
+    min-width: 0;
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
 .detail-label {
@@ -258,6 +265,8 @@ h1 {
 
 .detail-value.detail-value-block {
     width: 100%;
+    line-height: 1.6;
+    white-space: pre-line;
 }
 
 .skills-container {
@@ -322,7 +331,8 @@ h1 {
 .position-desc {
     margin-top: 0.35rem;
     color: var(--text-primary);
-    line-height: 1.5;
+    line-height: 1.6;
+    white-space: pre-line;
 }
 
 .muted-text {
