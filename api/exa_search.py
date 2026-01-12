@@ -52,7 +52,7 @@ class ExaSearchClient:
         payload = {
             "query": query,
             "use_autoprompt": True,
-            "num_results": limit,
+            "num_results": max(1, min(limit, 5)),
             "include_domains": ["linkedin.com"]
         }
 
@@ -93,7 +93,11 @@ class ExaSearchClient:
             # Keep only LinkedIn profile URLs with name-like matches
             if "linkedin.com/in/" not in linkedin_url.lower():
                 continue
-            if name_tokens and not self._tokens_match(title or summary, name_tokens):
+            if name_tokens and not (
+                self._tokens_match(title, name_tokens)
+                or self._tokens_match(summary, name_tokens)
+                or self._url_matches(linkedin_url, name_tokens)
+            ):
                 continue
 
             normalized.append({
@@ -129,6 +133,20 @@ class ExaSearchClient:
         primary = title.split("|")[0].strip()
         primary = (primary.split(" - ")[0] or primary).strip()
         return primary or fallback
+
+    def _url_matches(self, url: str, tokens: List[str]) -> bool:
+        """Check if name tokens appear in the LinkedIn slug."""
+        if not url:
+            return False
+        parts = url.lower().split("/")
+        slug = ""
+        for part in parts:
+            if "linkedin.com/in" in part:
+                continue
+            if part:
+                slug = part
+        slug_tokens = [tok for tok in slug.replace("-", " ").split() if tok]
+        return all(tok in slug_tokens for tok in tokens) if tokens else True
 
     def _name_tokens(self, name: str) -> List[str]:
         """Tokenize a name for simple matching."""
