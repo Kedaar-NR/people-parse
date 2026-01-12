@@ -46,6 +46,11 @@ uvicorn app:app --reload --host 0.0.0.0 --port 8000
 - From the repo root, run `uvicorn app:app --reload --host 0.0.0.0 --port 8000`.
 - Visit `http://localhost:8000` in the browser to use the UI.
 
+### Quick notes
+- This is a FastAPI app (not Streamlit). Use `uvicorn app:app --host 0.0.0.0 --port $PORT` as the start command on any host.
+- Required env var everywhere: `CORESIGNAL_API_KEY`.
+- Health check for deployments: `GET /api/health` should return `"coresignal_configured": true`.
+
 ## API Endpoints
 
 - `GET /` - Main web interface
