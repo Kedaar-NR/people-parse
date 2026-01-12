@@ -248,7 +248,10 @@ document.addEventListener('DOMContentLoaded', function() {
         normalized = normalized.replace(/<[^>]+>/g, '');
 
         const escaped = escapeHtml(normalized);
-        return escaped.replace(/\n+/g, '<br>');
+        const withParagraphs = escaped
+            .replace(/\n{2,}/g, '<br><br>')
+            .replace(/\n/g, '<br>');
+        return withParagraphs;
     }
 });
 
