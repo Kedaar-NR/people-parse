@@ -214,6 +214,26 @@ document.addEventListener('DOMContentLoaded', function() {
         return withParagraphs;
     }
 
+    function formatSummary(text) {
+        if (!text) return '';
+        const clean = text.replace(/\s+/g, ' ').trim();
+        const sentences = clean.split(/(?<=[.!?])\s+/);
+        const paragraphs = [];
+        let current = [];
+
+        sentences.forEach((s, idx) => {
+            if (!s) return;
+            current.push(s);
+            const isBreak = current.length >= 2 || idx === sentences.length - 1;
+            if (isBreak) {
+                paragraphs.push(current.join(' '));
+                current = [];
+            }
+        });
+
+        return paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('');
+    }
+
     function buildSnippet(profile) {
         if (profile.summary) {
             return profile.summary.slice(0, 120) + (profile.summary.length > 120 ? '…' : '');
@@ -235,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const summarySection = profile.summary ? `
             <div class="detail-block highlight-summary">
                 <div class="section-title">LinkedIn Summary</div>
-                <div>${formatDescription(profile.summary)}</div>
+                <div>${formatSummary(profile.summary)}</div>
             </div>
         ` : '';
 
