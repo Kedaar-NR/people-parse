@@ -52,7 +52,7 @@ class ExaSearchClient:
         payload = {
             "query": query,
             "use_autoprompt": True,
-            "num_results": max(1, min(limit, 5)),
+            "num_results": max(1, min(limit, 20)),
             "include_domains": ["linkedin.com"]
         }
 
@@ -96,7 +96,6 @@ class ExaSearchClient:
             if name_tokens and not (
                 self._tokens_match(title, name_tokens)
                 or self._tokens_match(summary, name_tokens)
-                or self._url_matches(linkedin_url, name_tokens)
             ):
                 continue
 
