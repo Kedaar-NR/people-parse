@@ -176,7 +176,7 @@ class CoreSignalClient:
                 "summary": summary,
                 "positions": self._format_positions(experience_entries),
                 "photo_url": self._extract_photo_url(result),
-                "source": "CoreSignal"
+                "source": ""
             }
             profiles.append(profile)
 
