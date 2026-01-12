@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Parser - Search Employee Profiles</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>People Parser</h1>
+            <p class="subtitle">Search for employee profiles using CoreSignal</p>
+        </header>
+
+        <div class="search-section">
+            <form id="searchForm">
+                <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="e.g., John Smith"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="company">Company (optional)</label>
+                    <input
+                        type="text"
+                        id="company"
+                        name="company"
+                        placeholder="e.g., Google"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="limit">Max Results</label>
+                    <select id="limit" name="limit">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="searchBtn" class="btn-primary">
+                    <span class="btn-text">Search</span>
+                    <span class="btn-loading" style="display: none;">Searching...</span>
+                </button>
+            </form>
+        </div>
+
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+        <div id="resultsSection" style="display: none;">
+            <div class="results-header">
+                <h2>Search Results</h2>
+                <span id="resultCount" class="result-count"></span>
+            </div>
+
+            <div id="results" class="results-grid"></div>
+        </div>
+
+        <div id="emptyState" class="empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <p>Search for people to see their profiles</p>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
