@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const searchData = {
             name: formData.get('name'),
             company: formData.get('company') || null,
-            limit: parseInt(formData.get('limit')),
+            limit: 10,
             use_exa: true
         };
 
