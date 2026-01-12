@@ -1,6 +1,11 @@
 # People Parser
 
-A web application for searching employee profiles using the CoreSignal API.
+A web application for searching employee profiles.
+
+<img width="1124" height="403" alt="image" src="https://github.com/user-attachments/assets/b874e471-d9d5-4800-84e2-57bd3d02137d" />
+
+
+<img width="1104" height="1135" alt="image" src="https://github.com/user-attachments/assets/f8f7c5f9-cd72-40f2-bda3-6c67619f418c" />
 
 ## Features
 
