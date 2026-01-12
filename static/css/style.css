@@ -576,6 +576,11 @@ body {
     border-color: #f0d76a;
 }
 
+.highlight-experience {
+    background: #eaf2ff;
+    border-color: #c9ddff;
+}
+
 .section-title {
     font-weight: 700;
     margin-bottom: 0.45rem;

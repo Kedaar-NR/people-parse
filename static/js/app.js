@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ` : '';
 
         const positionsSection = uniquePositions.length ? `
-            <div class="detail-block">
+            <div class="detail-block highlight-experience">
                 <div class="section-title">Experience</div>
                 <div class="list-items">
                     ${uniquePositions.map((p) => `
