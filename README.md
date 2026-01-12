@@ -2,6 +2,12 @@
 
 A web application for searching employee profiles using the CoreSignal API.
 
+<img width="1411" height="850" alt="image" src="https://github.com/user-attachments/assets/54f7388e-ebe2-4c4f-94ed-2d6fa9884b16" />
+
+<img width="1154" height="748" alt="image" src="https://github.com/user-attachments/assets/659df36b-e1ed-4824-9830-43cfc5e42b68" />
+
+
+
 ## Features
 
 - Search for professionals by job title and company
