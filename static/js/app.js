@@ -254,33 +254,3 @@ document.addEventListener('DOMContentLoaded', function() {
         return withParagraphs;
     }
 });
-
-// Toggle skills visibility
-function toggleSkills(profileId) {
-    const hiddenSkills = document.getElementById(`hidden-skills-${profileId}`);
-    const skillsContainer = document.getElementById(`skills-${profileId}`);
-    const btn = event.target;
-
-    if (hiddenSkills.style.display === 'none') {
-        // Show hidden skills
-        const hiddenTags = hiddenSkills.querySelectorAll('.skill-tag');
-        hiddenTags.forEach(tag => {
-            skillsContainer.appendChild(tag.cloneNode(true));
-        });
-        btn.textContent = 'Show less';
-        hiddenSkills.style.display = 'block';
-    } else {
-        // Hide skills (restore original state)
-        const allTags = skillsContainer.querySelectorAll('.skill-tag');
-        const visibleCount = allTags.length - hiddenSkills.querySelectorAll('.skill-tag').length;
-
-        // Remove extra tags
-        for (let i = allTags.length - 1; i >= visibleCount; i--) {
-            allTags[i].remove();
-        }
-
-        const hiddenCount = hiddenSkills.querySelectorAll('.skill-tag').length;
-        btn.textContent = `Show ${hiddenCount} more`;
-        hiddenSkills.style.display = 'none';
-    }
-}
