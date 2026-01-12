@@ -7,54 +7,45 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <div class="container">
-        <header class="hero" aria-hidden="true"></header>
+    <div class="container hero-wrap">
+        <header class="hero">
+            <h1>Search built for AI</h1>
+            <p class="subtitle">Find LinkedIn-style profiles instantly.</p>
+        </header>
 
-        <div class="search-shell">
-            <form id="searchForm" class="search-form">
-                <div class="question-card">
-                    <h2>Tell us about who to find</h2>
-                    <p class="question-sub">Help us narrow the search for the right LinkedIn profiles.</p>
-
-                    <div class="form-stack">
-                        <label for="name">Who are you searching for?</label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            placeholder="Search by name"
-                            required
-                        >
-                    </div>
-
-                    <div class="form-stack">
-                        <label for="company">Any company or organization?</label>
-                        <input
-                            type="text"
-                            id="company"
-                            name="company"
-                            placeholder="Company (optional)"
-                        >
-                    </div>
-
-                    <div class="form-inline">
-                        <div class="form-stack inline">
-                            <label for="limit">How many results?</label>
-                            <select id="limit" name="limit">
-                                <option value="5">5</option>
-                                <option value="10" selected>10</option>
-                                <option value="20">20</option>
-                                <option value="50">50</option>
-                            </select>
-                        </div>
-                        <button type="submit" id="searchBtn" class="btn-cta">
-                            <span class="btn-text">Continue</span>
-                            <span class="btn-loading" style="display: none;">Searching...</span>
-                        </button>
-                    </div>
+        <form id="searchForm" class="search-form">
+            <div class="search-bar triple">
+                <div class="pill-field">
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Who are you looking for?"
+                        required
+                    >
                 </div>
-            </form>
-        </div>
+                <div class="pill-field">
+                    <input
+                        type="text"
+                        id="company"
+                        name="company"
+                        placeholder="Company (optional)"
+                    >
+                </div>
+                <div class="pill-field pill-select">
+                    <select id="limit" name="limit">
+                        <option value="5">5 results</option>
+                        <option value="10" selected>10 results</option>
+                        <option value="20">20 results</option>
+                        <option value="50">50 results</option>
+                    </select>
+                </div>
+                <button type="submit" id="searchBtn" class="btn-cta">
+                    <span class="btn-text">Search</span>
+                    <span class="btn-loading" style="display: none;">Searching...</span>
+                </button>
+            </div>
+        </form>
 
         <div id="recentContainer" class="recent-container" style="display: none;">
             <div class="recent-title">Recent searches</div>

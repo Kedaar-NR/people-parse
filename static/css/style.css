@@ -26,28 +26,43 @@ body {
     font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
     color: var(--text-primary);
-    background-color: var(--bg-gray);
-    padding: 1rem;
+    background: radial-gradient(circle at 20% 20%, rgba(37, 99, 235, 0.06), transparent 25%),
+                radial-gradient(circle at 80% 30%, rgba(14, 165, 233, 0.07), transparent 30%),
+                #f9fafb;
+    padding: 1.5rem 1rem;
 }
 
 .container {
     max-width: 1100px;
     margin: 0 auto 3rem auto;
-    padding: 1.5rem;
+    padding: 1rem;
+}
+
+.hero-wrap {
+    display: grid;
+    justify-items: center;
+    gap: 1rem;
 }
 
 .hero {
+    text-align: center;
     margin-bottom: 0.5rem;
 }
 
-.search-shell {
-    margin-bottom: 2rem;
+.hero h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
 }
 
 .search-form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    width: min(920px, 100%);
 }
 
 .recent-container {
@@ -72,7 +87,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    background: #f3f5fb;
+    background: #f5f7fb;
     border: 1px solid #e3e7f0;
     color: var(--text-primary);
     padding: 0.5rem 0.65rem 0.5rem 0.75rem;
@@ -112,6 +127,53 @@ body {
 .question-sub {
     color: var(--text-secondary);
     margin-top: -0.25rem;
+}
+
+.search-bar.triple {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 0.7fr auto;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #dfe4ef;
+    border-radius: 16px;
+    padding: 0.35rem;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+    align-items: center;
+}
+
+.pill-field {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 0.55rem 0.75rem;
+    display: flex;
+    align-items: center;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.pill-field:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.pill-field input,
+.pill-field select {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 1rem;
+    background: transparent;
+    color: var(--text-primary);
+}
+
+.pill-field input::placeholder {
+    color: var(--text-secondary);
+}
+
+.pill-select select {
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
 }
 
 .form-stack {
