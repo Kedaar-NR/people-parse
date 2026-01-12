@@ -176,7 +176,7 @@ class CoreSignalClient:
                 "summary": summary,
                 "positions": self._format_positions(experience_entries),
                 "photo_url": self._extract_photo_url(result),
-                "source": "Coresignal"
+                "source": "CoreSignal"
             }
             profiles.append(profile)
 
@@ -211,16 +211,41 @@ class CoreSignalClient:
             "accept": "application/json"
         }
 
-        response = await client.post(
-            search_endpoint,
-            json=payload,
-            headers=headers
-        )
-        response.raise_for_status()
-        ids = response.json()
+        def parse_ids(resp: httpx.Response) -> List[str]:
+            ids_json = resp.json()
+            if not isinstance(ids_json, list):
+                return []
+            return ids_json
 
-        if not isinstance(ids, list):
-            return []
+        response = None
+        try:
+            response = await client.post(
+                search_endpoint,
+                json=payload,
+                headers=headers
+            )
+            response.raise_for_status()
+            ids = parse_ids(response)
+        except httpx.HTTPStatusError as e:
+            # CoreSignal rejects unknown fields (e.g., company_name) with 422/extra_forbidden.
+            # Retry once without the company filter so the user still gets results.
+            if (
+                e.response is not None
+                and e.response.status_code == 422
+                and any(k in payload for k in ("company_name", "company"))
+            ):
+                stripped_payload = {
+                    k: v for k, v in payload.items() if k not in ("company_name", "company")
+                }
+                retry_resp = await client.post(
+                    search_endpoint,
+                    json=stripped_payload,
+                    headers=headers
+                )
+                retry_resp.raise_for_status()
+                ids = parse_ids(retry_resp)
+            else:
+                raise
 
         return ids
 
