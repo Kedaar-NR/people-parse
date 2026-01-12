@@ -377,15 +377,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         recentContainer.style.display = 'grid';
-        recentSearches.forEach((q) => {
+        recentSearches.forEach((q, idx) => {
             const chip = document.createElement('button');
             chip.type = 'button';
             chip.className = 'recent-chip';
             const label = q.company
                 ? `${q.name} • ${q.company}`
                 : q.name;
-            chip.innerHTML = `${escapeHtml(label)} <span style="color:#6b7280;font-weight:600;">(${q.limit})</span>`;
-            chip.addEventListener('click', () => {
+            chip.innerHTML = `
+                <span>${escapeHtml(label)} <span style="color:#6b7280;font-weight:600;">(${q.limit})</span></span>
+                <span class="chip-close" aria-label="Remove recent search">&times;</span>
+            `;
+            chip.addEventListener('click', (ev) => {
+                if (ev.target.classList.contains('chip-close')) {
+                    ev.stopPropagation();
+                    recentSearches.splice(idx, 1);
+                    saveRecentSearches(recentSearches);
+                    renderRecentSearches();
+                    return;
+                }
                 document.getElementById('name').value = q.name;
                 document.getElementById('company').value = q.company || '';
                 document.getElementById('limit').value = q.limit;

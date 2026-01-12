@@ -71,11 +71,11 @@ body {
 .recent-chip {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.4rem;
     background: #f3f5fb;
     border: 1px solid #e3e7f0;
     color: var(--text-primary);
-    padding: 0.5rem 0.7rem;
+    padding: 0.5rem 0.65rem 0.5rem 0.75rem;
     border-radius: 999px;
     cursor: pointer;
     font-weight: 600;
@@ -86,6 +86,12 @@ body {
 .recent-chip:hover {
     transform: translateY(-1px);
     box-shadow: var(--shadow-sm);
+}
+
+.chip-close {
+    color: #6b7280;
+    font-weight: 700;
+    font-size: 0.9rem;
 }
 
 .question-card {
