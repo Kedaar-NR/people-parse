@@ -133,11 +133,10 @@ body {
     display: grid;
     grid-template-columns: 1.4fr 1fr 0.7fr auto;
     gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid #dfe4ef;
-    border-radius: 16px;
-    padding: 0.35rem;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
     align-items: center;
 }
 
