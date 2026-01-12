@@ -36,28 +36,28 @@ body {
     padding: 1.5rem;
 }
 
-header {
+.hero {
     text-align: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
 }
 
-h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
+.hero h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
     color: var(--text-primary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .subtitle {
-    font-size: 1.125rem;
+    font-size: 1.1rem;
     color: var(--text-secondary);
 }
 
 .search-shell {
     background: white;
-    padding: 1.25rem 1.5rem;
-    border-radius: 1rem;
-    box-shadow: var(--shadow-md);
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    box-shadow: var(--shadow-lg);
     margin-bottom: 2rem;
 }
 
@@ -105,44 +105,63 @@ h1 {
     box-shadow: var(--shadow-sm);
 }
 
-.search-bar {
+.question-card {
+    background: #fafafa;
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    display: grid;
+    gap: 1rem;
+}
+
+.question-card h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.question-sub {
+    color: var(--text-secondary);
+    margin-top: -0.25rem;
+}
+
+.form-stack {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.form-stack label {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.form-stack input,
+.form-stack select {
+    width: 100%;
+    padding: 0.85rem 0.9rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.9rem;
+    font-size: 1rem;
+    background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-stack input:focus,
+.form-stack select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.form-inline {
     display: grid;
     grid-template-columns: 1fr auto;
+    align-items: end;
     gap: 0.75rem;
-    align-items: center;
-    background: var(--pill-bg);
-    border: 1px solid var(--pill-border);
-    border-radius: 999px;
-    padding: 0.35rem;
 }
 
-.search-input {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.55rem 0.9rem;
-    border-radius: 999px;
-    background: white;
-    border: 1px solid var(--border-color);
-    transition: box-shadow 0.2s, border-color 0.2s;
-}
-
-.search-input:focus-within {
-    border-color: var(--primary-color);
-    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.08);
-}
-
-.search-input input {
-    border: none;
-    outline: none;
-    width: 100%;
-    font-size: 1rem;
-    color: var(--text-primary);
-    background: transparent;
-}
-
-.search-input input::placeholder {
-    color: var(--text-secondary);
+.form-stack.inline label {
+    font-weight: 700;
 }
 
 .search-icon {
