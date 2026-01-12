@@ -281,7 +281,6 @@ document.addEventListener('DOMContentLoaded', function() {
         ` : '';
 
         const metaLine = [
-            profile.company ? escapeHtml(profile.company) : '',
             profile.location ? `<span class="strong-text">${escapeHtml(profile.location)}</span>` : '',
             profile.experience ? `<span class="strong-text">${escapeHtml(profile.experience)}</span>` : ''
         ].filter(Boolean).join(' • ');
