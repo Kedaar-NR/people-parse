@@ -322,6 +322,7 @@ class CoreSignalClient:
     def _format_positions(self, experiences: List[Dict]) -> List[Dict]:
         """Format experience entries into a LinkedIn-style list for the UI."""
         positions = []
+        seen_keys = set()
 
         for exp in experiences:
             if not isinstance(exp, dict):
@@ -338,6 +339,16 @@ class CoreSignalClient:
             start_dt = self._parse_date(exp.get("date_from"))
             end_dt = self._parse_date(date_to_val)
             period = self._format_date_range(exp.get("date_from"), date_to_val, is_current)
+
+            # Deduplicate identical roles by title/company/period triple
+            dedupe_key = (
+                (title or "").strip().lower(),
+                (company or "").strip().lower(),
+                (period or "").strip().lower()
+            )
+            if dedupe_key in seen_keys:
+                continue
+            seen_keys.add(dedupe_key)
 
             positions.append({
                 "title": title,
