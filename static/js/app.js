@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function buildDetailPanel(profile) {
-        const uniquePositions = dedupePositions(profile.positions || []);
+        const uniquePositions = dedupePositions(profile.positions || []).slice(0, 8);
         const allSkills = [
             ...(profile.skills?.visible || []),
             ...(profile.skills?.hidden || [])
@@ -309,16 +309,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const seen = new Set();
         const unique = [];
         for (const p of positions) {
-            const key = [
-                (p.title || '').trim().toLowerCase(),
-                (p.company || '').trim().toLowerCase(),
-                (p.period || '').trim().toLowerCase()
-            ].join('|');
+            const normTitle = normalizeStr(p.title);
+            const normCompany = normalizeStr(p.company);
+            const normPeriod = normalizeStr(p.period);
+            const normDesc = normalizeStr(p.description).slice(0, 80);
+            const key = [normTitle, normCompany, normPeriod || normDesc].join('|');
             if (seen.has(key)) continue;
             seen.add(key);
             unique.push(p);
         }
         return unique;
+    }
+
+    function normalizeStr(val) {
+        return (val || '').toString().trim().toLowerCase().replace(/\s+/g, ' ');
     }
 
     function loadRecentSearches() {
