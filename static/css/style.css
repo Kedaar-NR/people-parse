@@ -616,6 +616,11 @@ body {
     gap: 0.15rem;
 }
 
+.position-period {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 1rem;

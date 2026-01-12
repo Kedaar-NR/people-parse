@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     ${uniquePositions.map((p) => `
                         <div class="position-row">
                             <div><strong>${escapeHtml(p.title || '')}</strong>${p.company ? ` • ${escapeHtml(p.company)}` : ''}</div>
-                            <div class="profile-location">${escapeHtml(p.period || '')}</div>
+                            <div class="position-period">${escapeHtml(p.period || '')}</div>
                             ${p.description ? `<div class="profile-trunc">${escapeHtml(p.description)}</div>` : ''}
                         </div>
                     `).join('')}
@@ -310,7 +310,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const seen = new Set();
         const unique = [];
         for (const p of positions) {
-            const key = `${p.title || ''}|${p.company || ''}|${p.period || ''}`;
+            const key = [
+                (p.title || '').trim().toLowerCase(),
+                (p.company || '').trim().toLowerCase(),
+                (p.period || '').trim().toLowerCase()
+            ].join('|');
             if (seen.has(key)) continue;
             seen.add(key);
             unique.push(p);
