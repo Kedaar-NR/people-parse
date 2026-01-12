@@ -10,6 +10,7 @@ import os
 from dotenv import load_dotenv
 
 from api.coresignal import CoreSignalClient
+from api.exa_search import ExaSearchClient
 from utils.formatter import format_experience, format_skills, format_education
 
 # Load environment variables
@@ -29,6 +30,7 @@ class SearchRequest(BaseModel):
     name: str
     company: Optional[str] = None
     limit: int = 10
+    use_exa: bool = True
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -51,6 +53,8 @@ async def search_person(search_request: SearchRequest):
     try:
         # Initialize CoreSignal client
         client = CoreSignalClient()
+        use_exa = search_request.use_exa and bool(os.getenv("EXA_API_KEY"))
+        exa_profiles = []
 
         # Search for person
         raw_results = await client.search_person(
@@ -69,9 +73,40 @@ async def search_person(search_request: SearchRequest):
         # Extract profiles
         profiles = client.extract_profiles(raw_results)
 
+        # Try to enrich with Exa search results (best-effort)
+        if use_exa:
+            try:
+                exa_client = ExaSearchClient()
+                exa_profiles = await exa_client.search_profiles(
+                    name=search_request.name,
+                    company=search_request.company,
+                    limit=search_request.limit
+                )
+            except Exception:
+                # Exa is optional; ignore failures
+                exa_profiles = []
+
+        # Combine and de-duplicate by LinkedIn URL
+        seen_urls = set()
+        combined_profiles = []
+
+        for profile in profiles:
+            url_key = (profile.get("linkedin_url") or "").lower()
+            if url_key:
+                seen_urls.add(url_key)
+            combined_profiles.append(profile)
+
+        for profile in exa_profiles:
+            url_key = (profile.get("linkedin_url") or "").lower()
+            if url_key and url_key in seen_urls:
+                continue
+            if url_key:
+                seen_urls.add(url_key)
+            combined_profiles.append(profile)
+
         # Format profiles for display
         formatted_profiles = []
-        for profile in profiles:
+        for profile in combined_profiles:
             formatted_profile = {
                 "name": profile["name"],
                 "title": profile["title"],
@@ -105,7 +140,8 @@ async def health_check():
     """Health check endpoint"""
     return {
         "status": "healthy",
-        "coresignal_configured": bool(os.getenv("CORESIGNAL_API_KEY"))
+        "coresignal_configured": bool(os.getenv("CORESIGNAL_API_KEY")),
+        "exa_configured": bool(os.getenv("EXA_API_KEY"))
     }
 
 

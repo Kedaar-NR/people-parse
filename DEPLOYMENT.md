@@ -13,6 +13,8 @@ pip install -r requirements.txt
 
 # Create .env file with your API key
 echo "CORESIGNAL_API_KEY=your_api_key_here" > .env
+# Optionally add your Exa key
+echo "EXA_API_KEY=your_exa_api_key_here" >> .env
 
 # Run the app
 python app.py
@@ -52,6 +54,7 @@ Visit: http://localhost:8000
 4. **Add Environment Variables**
    - Key: `CORESIGNAL_API_KEY`
    - Value: Your CoreSignal API key
+   - Optional: `EXA_API_KEY` for Exa search fallback
 
 5. **Deploy**
    - Click "Create Web Service"
@@ -76,6 +79,7 @@ Visit: http://localhost:8000
 3. Select `Kedaar-NR/people-parse`
 4. Add environment variable:
    - `CORESIGNAL_API_KEY` = your key
+   - (Optional) `EXA_API_KEY` = your Exa key
 5. Railway auto-detects settings from `railway.json`
 6. Click "Deploy"
 
@@ -94,6 +98,7 @@ docker build -t people-parser .
 # Run the container
 docker run -p 8000:8000 \
   -e CORESIGNAL_API_KEY=your_api_key_here \
+  -e EXA_API_KEY=your_exa_api_key_here \
   people-parser
 ```
 
@@ -194,6 +199,7 @@ Required for all deployments:
 | Variable | Description | Example |
 |----------|-------------|---------|
 | `CORESIGNAL_API_KEY` | Your CoreSignal API key | `pCXpIm5PdkBqSKnMaKq3it4dq7eTtOLt` |
+| `EXA_API_KEY` | Optional Exa API key for web search | `exa_xxx` |
 | `PORT` | Port number (auto-set by platforms) | `8000` |
 
 ---

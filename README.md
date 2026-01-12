@@ -2,16 +2,11 @@
 
 A web application for searching employee profiles using the CoreSignal API.
 
-<img width="1411" height="850" alt="image" src="https://github.com/user-attachments/assets/54f7388e-ebe2-4c4f-94ed-2d6fa9884b16" />
-
-<img width="1154" height="748" alt="image" src="https://github.com/user-attachments/assets/659df36b-e1ed-4824-9830-43cfc5e42b68" />
-
-
-
 ## Features
 
 - Search for professionals by job title and company
 - View detailed profile information including skills, education, and experience
+- Optional Exa-powered web search to find LinkedIn URLs when CoreSignal data is sparse
 - Clean, responsive web interface
 - Real-time search results
 
@@ -26,6 +21,7 @@ pip install -r requirements.txt
 ```bash
 cp .env.example .env
 # Edit .env and add your CoreSignal API key
+# (optionally add EXA_API_KEY to enable the web search fallback)
 ```
 
 3. Run the application:
@@ -49,13 +45,14 @@ uvicorn app:app --reload --host 0.0.0.0 --port 8000
 
 ### Local quickstart
 - Ensure `CORESIGNAL_API_KEY` is set in `.env` or your shell environment.
+- Optionally set `EXA_API_KEY` to enable Exa-based LinkedIn discovery.
 - From the repo root, run `uvicorn app:app --reload --host 0.0.0.0 --port 8000`.
 - Visit `http://localhost:8000` in the browser to use the UI.
 
 ### Quick notes
 - This is a FastAPI app (not Streamlit). Use `uvicorn app:app --host 0.0.0.0 --port $PORT` as the start command on any host.
-- Required env var everywhere: `CORESIGNAL_API_KEY`.
-- Health check for deployments: `GET /api/health` should return `"coresignal_configured": true`.
+- Required env var everywhere: `CORESIGNAL_API_KEY`. Optional: `EXA_API_KEY` for web search.
+- Health check for deployments: `GET /api/health` should return `"coresignal_configured": true` (and `"exa_configured": true` when set).
 
 ## API Endpoints
 
@@ -77,7 +74,7 @@ uvicorn app:app --reload --host 0.0.0.0 --port 8000
 2. Click "New +" → "Web Service"
 3. Connect your GitHub repository: `Kedaar-NR/people-parse`
 4. Render will auto-detect the `render.yaml` configuration
-5. Add environment variable: `CORESIGNAL_API_KEY`
+5. Add environment variables: `CORESIGNAL_API_KEY` (required), `EXA_API_KEY` (optional)
 6. Click "Create Web Service"
 
 Your app will be live at `https://your-app-name.onrender.com`
@@ -87,7 +84,7 @@ Your app will be live at `https://your-app-name.onrender.com`
 1. Go to [railway.app](https://railway.app)
 2. Click "New Project" → "Deploy from GitHub repo"
 3. Select `Kedaar-NR/people-parse`
-4. Add environment variable: `CORESIGNAL_API_KEY`
+4. Add environment variables: `CORESIGNAL_API_KEY` (required), `EXA_API_KEY` (optional)
 5. Railway auto-deploys using `railway.json`
 
 ### Deploy to Heroku
@@ -107,6 +104,7 @@ docker build -t people-parser .
 
 # Run the container
 docker run -p 8000:8000 -e CORESIGNAL_API_KEY=your_api_key_here people-parser
+# Optionally add: -e EXA_API_KEY=your_exa_api_key_here
 ```
 
 ### Deploy to AWS/GCP/Azure
