@@ -78,9 +78,12 @@ async def search_person(search_request: SearchRequest):
                 "company": profile["company"],
                 "location": profile["location"],
                 "experience": format_experience(profile["experience_months"]),
+                "summary": profile.get("summary", ""),
+                "positions": profile.get("positions", []),
                 "skills": format_skills(profile["skills"]),
                 "education": format_education(profile["education"]),
                 "linkedin_url": profile["linkedin_url"],
+                "photo_url": profile.get("photo_url", ""),
                 "source": profile["source"]
             }
             formatted_profiles.append(formatted_profile)

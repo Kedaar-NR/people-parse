@@ -41,6 +41,11 @@ uvicorn app:app --reload --host 0.0.0.0 --port 8000
 
 4. Open your browser to `http://localhost:8000`
 
+### Local quickstart
+- Ensure `CORESIGNAL_API_KEY` is set in `.env` or your shell environment.
+- From the repo root, run `uvicorn app:app --reload --host 0.0.0.0 --port 8000`.
+- Visit `http://localhost:8000` in the browser to use the UI.
+
 ## API Endpoints
 
 - `GET /` - Main web interface

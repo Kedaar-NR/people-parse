@@ -100,29 +100,75 @@ document.addEventListener('DOMContentLoaded', function() {
         const card = document.createElement('div');
         card.className = 'profile-card';
 
+        const linkedinLink = profile.linkedin_url ? `
+            <a href="${escapeHtml(profile.linkedin_url)}" target="_blank" rel="noopener noreferrer" class="linkedin-top">
+                View LinkedIn →
+            </a>
+        ` : '';
+
+        const avatarHTML = profile.photo_url ? `
+            <div class="profile-avatar">
+                <img src="${escapeHtml(profile.photo_url)}" alt="${escapeHtml(profile.name)}">
+            </div>
+        ` : `
+            <div class="profile-avatar placeholder">
+                ${escapeHtml(profile.name ? profile.name.charAt(0).toUpperCase() : '?')}
+            </div>
+        `;
+
         // Build skills HTML
         let skillsHTML = '';
-        if (profile.skills.visible.length > 0) {
+        const allSkills = [
+            ...(profile.skills.visible || []),
+            ...(profile.skills.hidden || [])
+        ];
+
+        if (allSkills.length > 0) {
             skillsHTML = `
                 <div class="detail-row">
                     <div class="detail-label">Skills:</div>
                     <div class="detail-value">
-                        <div class="skills-container" id="skills-${sanitizeId(profile.name)}">
-                            ${profile.skills.visible.map(skill =>
+                        <div class="skills-container">
+                            ${allSkills.map(skill =>
                                 `<span class="skill-tag">${escapeHtml(skill)}</span>`
                             ).join('')}
                         </div>
-                        ${profile.skills.hidden.length > 0 ?
-                            `<button class="show-more-btn" onclick="toggleSkills('${sanitizeId(profile.name)}')">
-                                Show ${profile.skills.hidden.length} more
-                            </button>
-                            <div id="hidden-skills-${sanitizeId(profile.name)}" style="display:none;">
-                                ${profile.skills.hidden.map(skill =>
-                                    `<span class="skill-tag">${escapeHtml(skill)}</span>`
-                                ).join('')}
-                            </div>`
-                            : ''
-                        }
+                    </div>
+                </div>
+            `;
+        }
+
+        // Build summary HTML
+        let summaryHTML = '';
+        if (profile.summary) {
+            summaryHTML = `
+                <div class="detail-row detail-row-stack">
+                    <div class="detail-label">LinkedIn Summary</div>
+                    <div class="detail-value detail-value-block">${formatDescription(profile.summary)}</div>
+                </div>
+            `;
+        }
+
+        // Build positions HTML
+        let positionsHTML = '';
+        if (profile.positions && profile.positions.length > 0) {
+            positionsHTML = `
+                <div class="detail-row detail-row-stack">
+                    <div class="detail-label">LinkedIn Roles</div>
+                    <div class="detail-value">
+                        <ul class="positions-list">
+                            ${profile.positions.map(role => `
+                                <li class="position-item">
+                                    <div class="position-title">${escapeHtml(role.title)}</div>
+                                    <div class="position-meta">
+                                        ${escapeHtml(role.company || 'Unknown company')}
+                                        ${role.period ? ` • ${escapeHtml(role.period)}` : ''}
+                                        ${role.location ? ` • ${escapeHtml(role.location)}` : ''}
+                                    </div>
+                                    ${role.description ? `<div class="position-desc">${formatDescription(role.description)}</div>` : ''}
+                                </li>
+                            `).join('')}
+                        </ul>
                     </div>
                 </div>
             `;
@@ -146,23 +192,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Build LinkedIn link
-        let linkedinHTML = '';
-        if (profile.linkedin_url) {
-            linkedinHTML = `
-                <a href="${escapeHtml(profile.linkedin_url)}" target="_blank" rel="noopener noreferrer" class="linkedin-link">
-                    View LinkedIn Profile →
-                </a>
-            `;
-        }
-
         card.innerHTML = `
             <div class="profile-header">
-                <div class="profile-info">
-                    <h3>${escapeHtml(profile.name)}</h3>
-                    <div class="profile-title">${escapeHtml(profile.title)}</div>
-                    <div class="profile-company">${escapeHtml(profile.company)}</div>
+                <div class="profile-id-block">
+                    ${avatarHTML}
+                    <div class="profile-info">
+                        <h3>${escapeHtml(profile.name)}</h3>
+                        <div class="profile-title">${escapeHtml(profile.title)}</div>
+                        <div class="profile-company">${escapeHtml(profile.company)}</div>
+                    </div>
                 </div>
-                <span class="source-badge">${escapeHtml(profile.source)}</span>
+                ${linkedinLink}
             </div>
 
             <div class="profile-details">
@@ -176,11 +216,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="detail-value">${escapeHtml(profile.experience)}</div>
                 </div>
 
+                ${summaryHTML}
+                ${positionsHTML}
                 ${skillsHTML}
                 ${educationHTML}
             </div>
-
-            ${linkedinHTML}
         `;
 
         return card;
@@ -197,8 +237,18 @@ document.addEventListener('DOMContentLoaded', function() {
         return String(text).replace(/[&<>"']/g, m => map[m]);
     }
 
-    function sanitizeId(str) {
-        return str.replace(/[^a-zA-Z0-9]/g, '-');
+    function formatDescription(desc) {
+        if (!desc) return '';
+
+        // Allow line breaks, strip other tags, then escape
+        let normalized = String(desc);
+        normalized = normalized.replace(/<br\s*\/?>/gi, '\n');
+        normalized = normalized.replace(/<\/p>/gi, '\n');
+        normalized = normalized.replace(/<p[^>]*>/gi, '');
+        normalized = normalized.replace(/<[^>]+>/g, '');
+
+        const escaped = escapeHtml(normalized);
+        return escaped.replace(/\n+/g, '<br>');
     }
 });
 
