@@ -10,54 +10,63 @@
     <div class="container">
         <header>
             <h1>People Parser</h1>
-            <p class="subtitle">Search for employee profiles using CoreSignal</p>
+            <p class="subtitle">Search for employee profiles using CoreSignal + Exa fallback</p>
         </header>
 
-        <div class="search-section">
-            <form id="searchForm">
-                <div class="form-group">
-                    <label for="name">Name *</label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        placeholder="e.g., John Smith"
-                        required
-                    >
+        <div class="search-shell">
+            <form id="searchForm" class="search-form">
+                <div class="search-bar">
+                    <div class="search-input">
+                        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14zm0-2a9 9 0 1 0 5.64 15.95l3.7 3.7a1 1 0 0 0 1.42-1.42l-3.7-3.7A9 9 0 0 0 11 2z" fill="currentColor"/>
+                        </svg>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Search for anyone..."
+                            required
+                        >
+                    </div>
+                    <button type="submit" id="searchBtn" class="btn-cta">
+                        <span class="btn-text">Search</span>
+                        <span class="btn-loading" style="display: none;">Searching...</span>
+                    </button>
                 </div>
 
-                <div class="form-group">
-                    <label for="company">Company (optional)</label>
-                    <input
-                        type="text"
-                        id="company"
-                        name="company"
-                        placeholder="e.g., Google"
-                    >
+                <div class="filters-row">
+                    <div class="filter">
+                        <label for="company">Company (optional)</label>
+                        <input
+                            type="text"
+                            id="company"
+                            name="company"
+                            placeholder="e.g., Google"
+                        >
+                    </div>
+                    <div class="filter">
+                        <label for="limit">Max Results</label>
+                        <select id="limit" name="limit">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="limit">Max Results</label>
-                    <select id="limit" name="limit">
-                        <option value="5">5</option>
-                        <option value="10" selected>10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                    </select>
-                </div>
-
-                <button type="submit" id="searchBtn" class="btn-primary">
-                    <span class="btn-text">Search</span>
-                    <span class="btn-loading" style="display: none;">Searching...</span>
-                </button>
             </form>
+        </div>
+
+        <div id="recentContainer" class="recent-container" style="display: none;">
+            <div class="recent-title">Recent searches</div>
+            <div id="recentList" class="recent-list"></div>
         </div>
 
         <div id="errorMessage" class="error-message" style="display: none;"></div>
 
         <div id="resultsSection" style="display: none;">
             <div class="results-header">
-                <h2>Search Results</h2>
+                <h2>People</h2>
                 <span id="resultCount" class="result-count"></span>
             </div>
 
@@ -72,6 +81,27 @@
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
             <p>Search for people to see their profiles</p>
+        </div>
+    </div>
+
+    <div id="profileModal" class="modal-overlay" style="display: none;">
+        <div class="modal">
+            <button class="modal-close" id="modalClose" aria-label="Close profile">×</button>
+            <div class="modal-header">
+                <div class="modal-avatar" id="modalAvatar"></div>
+                <div class="modal-title-block">
+                    <div class="modal-name" id="modalName"></div>
+                    <div class="modal-role" id="modalRole"></div>
+                    <div class="modal-meta" id="modalMeta"></div>
+                </div>
+                <a id="modalLinkedin" class="modal-link" target="_blank" rel="noopener noreferrer">View LinkedIn</a>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section" id="modalSummary"></div>
+                <div class="modal-section" id="modalPositions"></div>
+                <div class="modal-section" id="modalSkills"></div>
+                <div class="modal-section" id="modalEducation"></div>
+            </div>
         </div>
     </div>
 
